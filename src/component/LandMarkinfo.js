@@ -55,44 +55,44 @@ const LandMarkinfo = ({ LandmarkData }) => {
       {/* City Info Sections */}
       <div ref={descriptionRef}>
         <h3 className="text-xl font-semibold mb-2">Description</h3>
-        <p>{description}</p>
+        <p>{LandmarkData?.description}</p>
       </div>
 
       <div ref={locationRef}>
         <h3 className="text-xl font-semibold mb-2">Location</h3>
-        <p>{location.city}, {location.state}, {location.country}</p>
-        <p>Coordinates: {location.coordinates.latitude}, {location.coordinates.longitude}</p>
+        <p>{LandmarkData?.location.city}, {LandmarkData?.location.state}, {LandmarkData?.location.country}</p>
+        <p>Coordinates: {LandmarkData?.location.coordinates.latitude}, {LandmarkData?.location.coordinates.longitude}</p>
       </div>
 
       <div ref={typeRef}>
         <h3 className="text-xl font-semibold mb-2">Type</h3>
-        <p>{type}</p>
+        <p>{LandmarkData?.type}</p>
       </div>
 
       <div ref={uniqueFeaturesRef}>
         <h3 className="text-xl font-semibold mb-2">Unique Features</h3>
-        <p>{unique_features}</p>
+        <p>{LandmarkData?.unique_features}</p>
       </div>
 
       <div ref={anecdotesRef}>
         <h3 className="text-xl font-semibold mb-2">Interesting Anecdotes</h3>
-        <p>{interesting_anecdotes}</p>
+        <p>{LandmarkData?.interesting_anecdotes}</p>
       </div>
 
       <div ref={visitingTipsRef}>
         <h3 className="text-xl font-semibold mb-2">Visiting Tips</h3>
-        <p>{visiting_tips}</p>
+        <p>{LandmarkData?.visiting_tips}</p>
       </div>
 
       <div ref={accessibilityRef}>
         <h3 className="text-xl font-semibold mb-2">Accessibility</h3>
-        <p>{accessibility}</p>
+        <p>{LandmarkData?.accessibility}</p>
       </div>
 
       <div ref={attractionsRef}>
         <h3 className="text-xl font-semibold mb-2">Nearby Attractions</h3>
         <ul>
-          {nearby_attractions.map((attraction, index) => (
+          {LandmarkData?.nearby_attractions?.map((attraction, index) => (
             <li key={index}>{attraction}</li>
           ))}
         </ul>
@@ -101,7 +101,7 @@ const LandMarkinfo = ({ LandmarkData }) => {
       <div ref={recommendationsRef}>
         <h3 className="text-xl font-semibold mb-2">Recommendations</h3>
         <ul>
-          {recommendations.map((recommendation, index) => (
+          {LandmarkData?.recommendations?.map((recommendation, index) => (
             <li key={index}>{recommendation}</li>
           ))}
         </ul>

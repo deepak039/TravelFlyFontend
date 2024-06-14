@@ -37,7 +37,7 @@ function App() {
           path: "/home",
           element: (
             <>
-              <Hero />
+              <Search/>
               <Category />
               <WhyThis />
             </>

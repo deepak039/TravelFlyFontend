@@ -20,6 +20,11 @@ const Search = () => {
     setdata(null);
     e.preventDefault();
     const token = localStorage.getItem('jwtToken'); 
+     if (!token) {
+      alert('Please log in to continue.');
+      navigate('/');
+      return;
+    }
 
     fetch('https://travelfly.onrender.com/api/v1/tours/search', {
       method: 'POST',

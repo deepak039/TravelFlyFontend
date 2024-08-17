@@ -19,7 +19,7 @@ const Destination = () => {
     setid(loc_id?.location);
 
     try {
-      const response = await fetch('http://localhost:3111/api/v1/tours/details', {
+      const response = await fetch('https://travelfly.onrender.com/api/v1/tours/details', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ const Destination = () => {
       setData(data);
 
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   };
 
@@ -151,8 +151,8 @@ const Destination = () => {
     <div>
       {!(dataLoc||streamedData) &&<ShimmerSimpleGallery card imageHeight={300} caption/>}
       {/* { (dataLoc||streamedData) && <CityInfo  cityData={dataLoc?streamedData: dataLoc}/>} */}
-   { dataLoc&&  loc_id?.type==="city"&& (dataLoc.status === "sucess") && <CityInfo  cityData={dataLoc?.data}/>}
-   { dataLoc&&  loc_id?.type==="landmark"&& (dataLoc.status === "sucess") && <LandMarkinfo  LandmarkData={dataLoc?.data?.text}/>}
+   { dataLoc&&  loc_id?.type==="city"&& (dataLoc.status === "success") && <CityInfo  cityData={dataLoc?.data}/>}
+   { dataLoc&&  loc_id?.type==="landmark"&& (dataLoc.status === "success") && <LandMarkinfo  LandmarkData={dataLoc?.data?.text}/>}
 
    {dataLoc && (dataLoc.status === "fail") && <div className='h-screen bg-slate-300 w-[100%] text-center'>
     Opps SomeThing Went wrong !!!!!!!

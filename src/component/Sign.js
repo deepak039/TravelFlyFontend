@@ -2,6 +2,9 @@ import { useState, useRef } from "react";
 import { checkValidData } from "../utils/validate";
 import Designer from "../utils/Designer.png";
 // import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -9,15 +12,20 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
   const username = useRef(null);
+  const dispatch=useDispatch();
   // const navigate = useNavigate();
 
+
+  
   const  createUser= async(name, email,password)=>{
         try {
-      const response = await fetch('http://localhost:3111/api/v1/users/signup', {
+      const response = await fetch('https://travelfly.onrender.com/api/v1/users/signup', {
         method: 'POST',
+       
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include' ,
         body: JSON.stringify({
           name:name,
         email:email,
@@ -27,11 +35,16 @@ const Login = () => {
       })
       
       const data = await response.json();
-      console.log(data);
+      if (data.token) {
+        localStorage.setItem('jwtToken', data.token);
+        dispatch(addUser(data));
+      }
+      // console.log(data);
+     
       
       
     } catch (error) {
-      console.error('Error fetching image:', error);
+      // console.error('Error fetching image:', error);
     }
 
   }

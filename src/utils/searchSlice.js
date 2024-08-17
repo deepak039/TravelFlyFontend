@@ -24,7 +24,6 @@ const userSlice = createSlice({
             // Remove from localStorage
             localStorage.removeItem('user');
             localStorage.removeItem('loggedin');
-            localStorage.removeItem('jwtToken');
         }
     }
 });

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function Hero() {
   const [bgImageIndex, setBgImageIndex] = useState(0);
   const searchValue = useRef();
@@ -16,7 +15,7 @@ function Hero() {
   const placeholders = [
     "Enter your dream destination",
     "Explore new horizons",
-    "Where will you go next?"
+    "Where will you go next?",
   ];
 
   const handleClick = () => {
@@ -58,7 +57,7 @@ function Hero() {
             <input
               ref={searchValue}
               type="text"
-              placeholder={placeholders[bgImageIndex]}
+              placeholder={placeholders[bgImageIndex]}  // Dynamic placeholder
               className="bg-white rounded-full py-2 px-4 w-64 border-2 focus:outline-none focus:ring-2 hover:border-teal-600 text-black"
               onFocus={handleFocus}
             />

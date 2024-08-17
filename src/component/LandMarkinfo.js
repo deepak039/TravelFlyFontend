@@ -4,18 +4,18 @@ import Gallery from './Gallery';
 
 const LandMarkinfo = ({ LandmarkData }) => {
   // Destructure relevant data from props
-  const {
-    name,
-    description,
-    location,
-    type,
-    unique_features,
-    interesting_anecdotes,
-    visiting_tips,
-    accessibility,
-    nearby_attractions,
-    recommendations
-  } = LandmarkData;
+  // const {
+  //   name,
+  //   description,
+  //   location,
+  //   type,
+  //   unique_features,
+  //   interesting_anecdotes,
+  //   visiting_tips,
+  //   accessibility,
+  //   nearby_attractions,
+  //   recommendations
+  // } = LandmarkData;
 
   // Create refs for each section
   const descriptionRef = useRef(null);

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import DestinationCard from './DestinationCard';
-import Gallery from './Gallery';
+// import DestinationCard from './DestinationCard';
+// import Gallery from './Gallery';
 
 const LandMarkinfo = ({ LandmarkData }) => {
   // Destructure relevant data from props

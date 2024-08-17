@@ -34,6 +34,7 @@ const DestinationCard = ({ destination }) => {
       }
     
     !images&&fetchImages();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loc, images, dispatch]);
 
 

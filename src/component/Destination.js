@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import CityInfo from './CityInfo';
@@ -112,6 +113,7 @@ const Destination = () => {
   useEffect(() => {
     console.log("data fetched");
     fetchDetails();
+  
   }, []);
 
   

@@ -1,4 +1,4 @@
-import React, { useRef ,useEffect} from 'react';
+import React, { useRef } from 'react';
 import DestinationCard from './DestinationCard';
 import Gallery from './Gallery';
 import Shimmer from './Shimmer';

@@ -1,4 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+  // eslint-disable-next-line 
 import React from 'react';
+
 
 function Footer() {
   return (
@@ -7,6 +10,7 @@ function Footer() {
         <div className="md:w-1/3 text-center md:text-left mb-4 md:mb-0">
           <h3 className="text-lg font-bold">Quick Links</h3>
           <ul className="mt-2">
+          
             <li><a href="#" className="block hover:text-gray-400">Home</a></li>
             <li><a href="#" className="block hover:text-gray-400">Destinations</a></li>
             <li><a href="#" className="block hover:text-gray-400">About Us</a></li>

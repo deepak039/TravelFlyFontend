@@ -66,6 +66,10 @@ const Login = () => {
   })
   
   const data = await response.json();
+       if (data.token) {
+        localStorage.setItem('jwtToken', data.token);
+        dispatch(addUser(data));
+      }
   console.log(data);
   
   

@@ -16,7 +16,7 @@ const Login = () => {
 
   const createUser = async (name, email, password) => {
     try {
-      const response = await fetch('http://localhost:3111/api/v1/users/signup', {
+      const response = await fetch('https://travelfly.onrender.com/api/v1/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const Login = () => {
 
   const loginUser = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:3111/api/v1/users/login', {
+      const response = await fetch('https://travelfly.onrender.com/api/v1/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

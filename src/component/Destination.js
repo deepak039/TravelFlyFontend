@@ -20,7 +20,7 @@ const Destination = () => {
     setid(loc_id?.location);
 
     try {
-      const response = await fetch('https://travelfly.onrender.com/api/v1/tours/details', {
+      const response = await fetch('http://localhost:3111/api/v1/tours/details', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

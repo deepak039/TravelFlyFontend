@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import { removeUser } from "../utils/userSlice";
 
 const Header = () => {
-  // const [islogedIn, loggedIn]=useState(false);
-  // const [setUser, userName]=useState(null);
+  const logedin = useSelector((store) => store.user.loggedin);
+  const userName = useSelector((store) => store.user.details?.data?.user?.name);
 
-  const logedin = useSelector((store)=>store.user.loggedin);
-  const userName = useSelector((store)=>store.user.details?.data?.user?.name);
-  
-
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -25,10 +22,23 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
     dispatch(removeUser());
     console.log("Logged out");
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header
@@ -45,27 +55,23 @@ const Header = () => {
         >
           <NavLink
             to="/home"
-            className="text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600 active:border-teal-600"
+            className={`${
+              logedin
+                ? 'text-yellow-300 border-yellow-300'
+                : 'text-white border-white'
+            } border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600 active:border-teal-600`}
           >
             Home
           </NavLink>
-          {/* <NavLink
-            to="/destinations"
-            className="text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
-          >
-            Destinations
-          </NavLink> */}
-          {/* <NavLink
-            to="/about"
-            className="text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
-          >
-            About Us
-          </NavLink> */}
           {logedin ? (
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleDropdown}
-                className="text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
+                className={`${
+                  logedin
+                    ? 'text-yellow-300 border-yellow-300'
+                    : 'text-white border-white'
+                } border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600`}
               >
                 {userName}
               </button>

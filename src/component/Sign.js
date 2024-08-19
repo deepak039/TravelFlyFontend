@@ -1,10 +1,9 @@
 import { useState, useRef } from "react";
 import { checkValidData } from "../utils/validate";
 import Designer from "../utils/Designer.png";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -12,81 +11,71 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
   const username = useRef(null);
-  const dispatch=useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-
-  
-  const  createUser= async(name, email,password)=>{
-        try {
-      const response = await fetch('https://travelfly.onrender.com/api/v1/users/signup', {
-        method: 'POST',
-       
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include' ,
-        body: JSON.stringify({
-          name:name,
-        email:email,
-        password:password,
-        passwordConfirm:password
-        })
-      })
-      
-      const data = await response.json();
-      if (data.token) {
-        localStorage.setItem('jwtToken', data.token);
-        dispatch(addUser(data));
-      }
-      // console.log(data);
-     
-      
-      
-    } catch (error) {
-      // console.error('Error fetching image:', error);
-    }
-
-  }
-
-
-  const  loginUser= async(email,password)=>{
+  const createUser = async (name, email, password) => {
     try {
-  const response = await fetch('https://travelfly.onrender.com/api/v1/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      
-    email:email,
-    password:password,
-    
-    })
-  })
-  
-  const data = await response.json();
-       if (data.token) {
+      const response = await fetch('http://localhost:3111/api/v1/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirm: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
         localStorage.setItem('jwtToken', data.token);
         dispatch(addUser(data));
+        navigate('/home'); // Redirect to /home after signup
+      } else {
+        setErrorMsg(data.message || 'An error occurred during signup.');
       }
-  console.log(data);
-  
-  
-} catch (error) {
-  console.error('Error fetching image:', error);
-}
+    } catch (error) {
+      setErrorMsg('An error occurred. Please try again.');
+      console.error('Error during signup:', error);
+    }
+  };
 
-}
+  const loginUser = async (email, password) => {
+    try {
+      const response = await fetch('http://localhost:3111/api/v1/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
+      const data = await response.json();
 
+      if (response.ok) {
+        localStorage.setItem('jwtToken', data.token);
+        dispatch(addUser(data));
+        navigate('/home'); // Redirect to /home after login
+      } else {
+        setErrorMsg(data.message || 'An error occurred during login.');
+      }
+    } catch (error) {
+      setErrorMsg('An error occurred. Please try again.');
+      console.error('Error during login:', error);
+    }
+  };
 
   const handleBtnClicked = () => {
-    // validate the form data
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMsg(message);
-    // console.log(email);
-    // console.log(password);
     if (message) return;
 
     if (!isSignIn) {
@@ -94,15 +83,12 @@ const Login = () => {
         username.current.value,
         email.current.value,
         password.current.value
-      )
-       
+      );
     } else {
       loginUser(
-        
         email.current.value,
         password.current.value
-      )
-        
+      );
     }
   };
 
@@ -142,7 +128,9 @@ const Login = () => {
           placeholder="Enter Password"
           className="p-4 my-2 w-full text-cyan-950"
         />
-        <p>{errorMessg}</p>
+        {errorMessg && (
+          <p className="text-red-500 my-4">{errorMessg}</p>
+        )}
         <button
           className="p-4 my-6 bg-teal-600 w-full rounded-2xl hover:bg-teal-500 active:bg-teal-700"
           onClick={handleBtnClicked}

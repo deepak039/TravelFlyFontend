@@ -26,7 +26,7 @@ const Search = () => {
       return;
     }
 
-    fetch('https://travelfly.onrender.com/api/v1/tours/search', {
+    fetch('http://localhost:3111/api/v1/tours/search', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

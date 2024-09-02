@@ -135,7 +135,7 @@ const Header = () => {
           className="text-white hover:text-teal-300 transition-colors duration-300 block"
           onClick={toggleMenu}
         >
-          Home
+          Blog
         </NavLink>
         <NavLink
           to="/search"

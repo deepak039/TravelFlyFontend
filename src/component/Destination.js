@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import CityInfo from './CityInfo';
-import LandMarkinfo from './LandMarkinfo';
+// import LandMarkinfo from './LandMarkinfo';
 import { ShimmerSimpleGallery } from "react-shimmer-effects";
 import jsonic from 'jsonic';
-import Review from './Review'
+// import Review from './Review'
 // import JSON5 from 'json5'
 // import JsonParseEvenBetterErrors from 'json-parse-even-better-errors';
 
@@ -27,7 +27,8 @@ const Destination = () => {
         },
         body: JSON.stringify({
           search: id,
-          type: loc_id?.type
+          type:"city"
+          // type: "loc_id?.type"
         })
       });
 
@@ -153,13 +154,15 @@ const Destination = () => {
     <div>
       {!(dataLoc||streamedData) &&<ShimmerSimpleGallery card imageHeight={300} caption/>}
       {/* { (dataLoc||streamedData) && <CityInfo  cityData={dataLoc?streamedData: dataLoc}/>} */}
-   { dataLoc&&  loc_id?.type==="city"&& (dataLoc.status === "success") && <CityInfo  cityData={dataLoc?.data}/>}
-   { dataLoc&&  loc_id?.type==="landmark"&& (dataLoc.status === "success") && <LandMarkinfo  LandmarkData={dataLoc?.data?.text}/>}
+      { dataLoc&& (dataLoc.status === "success") && <CityInfo  cityData={dataLoc?.data}/>}
+
+   {/* { dataLoc&&  loc_id?.type==="city"&& (dataLoc.status === "success") && <CityInfo  cityData={dataLoc?.data}/>} */}
+   {/* { dataLoc&&  loc_id?.type==="landmark"&& (dataLoc.status === "success") && <LandMarkinfo  LandmarkData={dataLoc?.data?.text}/>} */}
 
    {dataLoc && (dataLoc.status === "fail") && <div className='h-screen bg-slate-300 w-[100%] text-center'>
     Opps SomeThing Went wrong !!!!!!!
   </div>}
-  <Review/>
+  {/* <Review/> */}
     </div>
     
   )

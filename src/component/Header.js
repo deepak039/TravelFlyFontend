@@ -2,87 +2,93 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeUser } from '../utils/userSlice';
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const logedin = useSelector((store) => store.user.loggedin);
+  const isLoggedIn = useSelector((store) => store.user.loggedin);
   const userName = useSelector((store) => store.user.details?.data?.user?.name);
-
   const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const dropdownRef = useRef(null);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleLogout = () => {
     dispatch(removeUser());
-    console.log('Logged out');
+    navigate('/');
+    // console.log('Logged out');
+
+  };
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsMenuOpen(false);
+    }
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isMenuOpen]);
 
   return (
-    <header className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 sticky top-0 z-50 py-4 border-t-2 border-teal-600 rounded-t-2xl">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-xl font-bold ml-3">Your Logo</div>
-        <nav className="hidden md:flex space-x-4 mr-2">
+    <header className="bg-orange-600 py-4 shadow-md">
+      <div className="container mx-auto flex justify-between items-center px-4">
+        <NavLink to="/" className="text-white text-2xl font-bold">
+          TravelFly
+        </NavLink>
+        <nav className="hidden md:flex space-x-4">
           <NavLink
-            to="/home"
-            className={`${
-              logedin
-                ? 'text-yellow-300 border-yellow-300'
-                : 'text-white border-white'
-            } border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600`}
+            to="/blog"
+            className="text-white hover:text-teal-300 transition-colors duration-300"
           >
-            Home
+            Blog
           </NavLink>
-          {logedin ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={toggleDropdown}
-                className="text-yellow-300 border-yellow-300 border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
+          <NavLink
+            to="/search"
+            className="text-white hover:text-teal-300 transition-colors duration-300"
+          >
+            Explore
+          </NavLink>
+          {isLoggedIn ? (
+            <>
+              <NavLink
+                to="/blog/create"
+                className="text-white hover:text-teal-300 transition-colors duration-300"
               >
-                {userName}
+                Create Blog
+              </NavLink>
+              <button
+                className="text-white hover:text-teal-300 transition-colors duration-300"
+                onClick={handleLogout}
+              >
+                Logout
               </button>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
+              <span className="text-teal-300 font-semibold">{userName}</span>
+            </>
           ) : (
-            <NavLink
-              to="/"
-              className="text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
-            >
-              Sign In
-            </NavLink>
+            <>
+              <NavLink
+                to="/"
+                className="text-white hover:text-teal-300 transition-colors duration-300"
+              >
+                Sign In
+              </NavLink>
+            </>
           )}
         </nav>
         <button
-          className="md:hidden"
+          className="md:hidden text-white focus:outline-none"
           onClick={toggleMenu}
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
-          <span className="sr-only">Toggle menu</span>
           <svg
             className="w-6 h-6"
             fill="none"
@@ -99,44 +105,79 @@ const Header = () => {
           </svg>
         </button>
       </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <nav className="md:hidden mt-4 space-y-2">
-          <NavLink
-            to="/home"
-            className="block text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
+      <div
+        ref={menuRef}
+        className={`fixed top-0 left-0 w-64 h-full bg-orange-700 p-6 transform ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        } transition-transform duration-300 ease-in-out z-50 shadow-lg`}
+      >
+        <button
+          className="text-white focus:outline-none mb-4"
+          onClick={toggleMenu}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            Home
-          </NavLink>
-          {logedin ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={toggleDropdown}
-                className="block text-yellow-300 border-yellow-300 border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
-              >
-                {userName}
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <NavLink
+          to="/blog"
+          className="text-white hover:text-teal-300 transition-colors duration-300 block"
+          onClick={toggleMenu}
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/search"
+          className="text-white hover:text-teal-300 transition-colors duration-300 block"
+          onClick={toggleMenu}
+        >
+          Explore
+        </NavLink>
+        {isLoggedIn ? (
+          <>
+            <NavLink
+              to="/blog/create"
+              className="text-white hover:text-teal-300 transition-colors duration-300 block"
+              onClick={toggleMenu}
+            >
+              Create Blog
+            </NavLink>
+            <button
+              className="text-white hover:text-teal-300 transition-colors duration-300 block w-full text-left"
+              onClick={() => {
+                handleLogout();
+                toggleMenu();
+              }}
+            >
+              Logout
+            </button>
+            <span className="text-teal-300 font-semibold block">{userName}</span>
+          </>
+        ) : (
+          <>
             <NavLink
               to="/"
-              className="block text-white border-2 py-1 px-3 rounded-3xl hover:text-orange-200 hover:border-teal-600"
+              className="text-white hover:text-teal-300 transition-colors duration-300 block"
+              onClick={toggleMenu}
             >
               Sign In
             </NavLink>
-          )}
-        </nav>
+          </>
+        )}
+      </div>
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={toggleMenu}></div>
       )}
     </header>
   );

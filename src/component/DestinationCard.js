@@ -93,7 +93,7 @@ const DestinationCard = ({ destination }) => {
           </p>
           <p className="text-gray-700 text-base mt-4">
             <strong>Location:</strong> {destination?.location}
-            <strong>Type:</strong>{destination?.type}
+            {/* <strong>Type:</strong>{destination?.type} */}
           </p>
         </div>
       </div>

@@ -1,11 +1,5 @@
-// import logo from './logo.svg';
-
-// import pin from './img/pin.png'
-
-// import './style.css';
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from 'react-redux';
-// import appStore from './utils/appStore';
 import appStore from "./utils/aapStore";
 
 import Header from './component/Header';
@@ -16,6 +10,11 @@ import Footer from './component/Footer';
 import Destination from './component/Destination';
 import Sign from "./component/Sign";
 import Search from "./component/Search";
+import CreateBlog from './component/CreateBlog';
+import BlogList from './component/BlogList';
+import BlogDetail from './component/BlogDetail';
+import EditBlog from './component/EditBlog';
+import ErrorPage from './component/ErrorPage'; // Import the ErrorPage component
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -28,6 +27,7 @@ function App() {
           <Footer />
         </>
       ),
+      errorElement: <ErrorPage />, // Specify the ErrorPage component for this route
       children: [
         {
           path: "/", // This is the default path
@@ -44,6 +44,22 @@ function App() {
           ),
         },
         {
+          path:"/blog",
+          element:<BlogList/>
+        },
+        {
+          path:"/blog/create",
+          element:<CreateBlog/>
+        },
+        {
+          path:"/blogs/:id",
+          element:<BlogDetail/>
+        },
+        {
+          path:"/blog/edit/:id",
+          element:<EditBlog/>
+        },
+        {
           path: "/search",
           element: <Search />,
         },
@@ -56,10 +72,9 @@ function App() {
   ]);
 
   return (
-   
     <Provider store={appStore}>
-    <RouterProvider router={appRouter} />
-  </Provider>
+      <RouterProvider router={appRouter} />
+    </Provider>
   );
 }
 
